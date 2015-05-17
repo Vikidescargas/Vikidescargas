@@ -3,17 +3,21 @@
 File:		search.php
 Date:		2015-01-26
 Brief:		Search engine routine file.
+
 Legal notice:
     Vikeep. Keep viki.com videos, yours.
     Copyright (C) 2013  Victor Villarreal <mefhigoseth@gmail.com>
+
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2 of the License, or
     (at your option) any later version.
+
     This program is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
+
     You should have received a copy of the GNU General Public License along
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
@@ -33,6 +37,7 @@ include("inc/propaganda.inc.php");
 
 <?php
 $q = "";
+
 if( isset($_POST['q']) ) {
 	$q = $_POST['q'];
 }
@@ -58,12 +63,15 @@ $propaganda->printCurrAdd();
 <?php
 if( !empty($q) ) {
 	$viki = new vikiAPI();
+
 	if( !isset($_GET['page']) ) {
 		$_GET['page'] = 1;
 	}
+
 	$_GET['page'] = (int) $_GET['page'];
 	$vikiSearch = $viki->search($q,$_GET['page']);
 	$count = count($vikiSearch['response']);
+
 	if( $count ){
 		for( $i=0;$i<$count;$i++) {
 			$id = $vikiSearch['response'][$i]['id'];
@@ -71,6 +79,7 @@ if( !empty($q) ) {
 			$poster = $vikiSearch['response'][$i]['images']['poster']['url'];
 			$episodes = $vikiSearch['response'][$i]['episodes']['count'];
             $description = substr($vikiSearch['response'][$i]['descriptions']['en'],0,140);
+
 			if( !empty($episodes) ) {
 				echo "<div class='hero-unit text-center'>\r\n";
                 echo "<h1>".$title."</h1><span class='label label-info'>".$episodes." episodes</span>\r\n";
@@ -98,6 +107,7 @@ $propaganda->printCurrAdd();
 <?php
         echo "<!-- Paging div -->\r\n";
         echo "<ul class='pager'>\r\n";
+
         if( $_GET['page']>1 ) {
             echo "<li class='previous'>\r\n";
             echo "<a href='?q=".$q."&page=".($_GET['page']-1)."'>&larr; Previous</a>\r\n";
@@ -108,6 +118,7 @@ $propaganda->printCurrAdd();
             echo "<a href='#'>&larr; Previous</a>\r\n";
             echo "</li>\r\n";
         }
+
         if($vikiSearch['more']) {
             echo "<li class='next'>\r\n";
             echo "<a href='?q=".$q."&page=".($_GET['page']+1)."'>Next &rarr;</a>\r\n";
@@ -118,6 +129,7 @@ $propaganda->printCurrAdd();
             echo "<a href='#'>Next &rarr;</a>\r\n";
             echo "</li>\r\n";
         }
+
 		echo "</ul>\r\n";
 	}
 	else {
